@@ -9,11 +9,11 @@ const router = express.Router();
 const initWebRouters = (app) => {
     router.get('/', homeController.handleGetdata);
     router.get('/user', homeController.handleUserdata);
+    router.post('/users/create-user', homeController.handleCreatNewUser)
     // router.get('/about', (req, res) => {
     //     return res.send('I am Tom');
     // })
-
-    return app.use('/jwt/api', router);
+    return app.use('/', router);
 };
 
 export default initWebRouters;
