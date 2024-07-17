@@ -1,12 +1,4 @@
-// Get the client
-import mysql from 'mysql2';
-
-// Create the connection to database
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'roleuser_db',
-});
+import userService from '../service/userService'
 
 const handleGetdata = (req, res) => {
     return res.render('home.ejs');
@@ -17,30 +9,15 @@ const handleUserdata = (req, res) => {
 }
 
 const handleCreatNewUser = async (req, res) => {
-    //console.log(">>>> handleCreatNewUser reuqest:", req.body);
-    // A simple SELECT query
-    try {
-
-
-
-        connection.query('INSERT INTO users (email, password, username) VALUES (?, ?, ?)', [req.body.email, req.body.password, req.body.username], function (err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(fields); // fields contains extra meta data about results, if available
-        });
-
-        // connection.query('SELECT * FROM users', function (err, results, fields) {
-        //     console.log(results); // results contains rows returned by server
-        //     console.log(fields); // fields contains extra meta data about results, if available
-        // });
-
-
-    } catch (err) {
-        console.log(err);
-    }
-
+    var user = { email: req.body.email, username: req.body.username, password: req.body.password };
+    // create new user
+    //userService.createNewUser(user);
+    userService.getListUsers();
 
     return res.send('create done !');
 }
+
+
 
 module.exports = {
     handleGetdata, handleUserdata, handleCreatNewUser
