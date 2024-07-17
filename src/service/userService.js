@@ -1,13 +1,24 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
+import bluebird from 'bluebird';
 
 const salt = bcrypt.genSaltSync(10);
+
 // Create the connection to database
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'roleuser_db',
-});
+const handleGetConnection = async () => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'roleuser_db',
+        Promise: bluebird
+    });
+
+    return connection;
+
+}
+
+
+
 
 const hashPassword = (userPassword) => {
     // hash password
@@ -15,7 +26,10 @@ const hashPassword = (userPassword) => {
     return hashPassword;
 }
 
-const createNewUser = (user) => {
+const createNewUser = async (user) => {
+    const connection = await handleGetConnection();
+
+
     let hashPass = hashPassword(user.password);
     try {
         connection.query('INSERT INTO users (email, password, username) VALUES (?, ?, ?)', [user.email, hashPass, user.username], function (err, results, fields) {
@@ -28,17 +42,17 @@ const createNewUser = (user) => {
     }
 }
 
-const getListUsers = () => {
+const getListUsers = async () => {
     let users = [];
 
     try {
-        connection.query('SELECT * FROM users', function (err, results, fields) {
-            console.log('check results: ', results); // results contains rows returned by server
-            //console.log(fields); // fields contains extra meta data about results, if available
-        });
-
+        const connection = await handleGetConnection();
+        const [rows, fields] = await connection.execute('SELECT * FROM users');
+        console.log('check rows: ', rows)
+        return rows;
     } catch (err) {
-        console.log(err);
+        console.log('Error exception: ', err);
+        return [];
     }
 }
 
