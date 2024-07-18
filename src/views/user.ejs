@@ -12,15 +12,10 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <title>Document</title>
+    <title>List User</title>
 </head>
 
 <body>
-    <div>
-        <%=JSON.stringify(userList)%>
-    </div>
-
-
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -40,11 +35,7 @@
                         <input type="text" class="form-control" id="username" placeholder="Enter username"
                             name="username">
                     </div>
-                    <!-- <div class="form-check mb-3">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                        </label>
-                    </div> -->
+
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -57,24 +48,35 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Username</th>
-                            <th scope="col">Passowrd</th>
                             <th scope="col">Email</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>
-                                <div>
-                                    <button class="btn btn-warning mr-2">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
+                        <% userList.forEach(function(item,index){ %>
+                            <tr>
+                                <th scope="row">
+                                    <%= index + 1 %>
+                                </th>
+                                <td>
+                                    <%= item.username %>
+                                </td>
+                                <td>
+                                    <%= item.email %>
+                                </td>
+                                <td>
+                                    <div style="display: flex;">
+                                        <form method="get" action="/users/user-detail/<%=item.Id%>" class="me-2">
+                                            <button type="submit" class="btn btn-warning">Edit</button>
+                                        </form>
+
+                                        <form method="get" action="/users/delete-user/<%=item.Id%>">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
                     </tbody>
                 </table>
             </div>

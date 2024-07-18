@@ -9,7 +9,10 @@ const router = express.Router();
 const initWebRouters = (app) => {
     router.get('/', homeController.handleGetdata);
     router.get('/user', homeController.handleUserPage);
-    router.post('/users/create-user', homeController.handleCreatNewUser)
+    router.post('/users/create-user', homeController.handleCreatNewUser);
+    router.get('/users/delete-user/:id', homeController.handleDeleteUser);
+    router.get('/users/user-detail/:id', homeController.handleUserInfo);
+    router.post('/users/update-user/:id', homeController.handleUpdateUser);
     // router.get('/about', (req, res) => {
     //     return res.send('I am Tom');
     // })

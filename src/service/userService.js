@@ -14,11 +14,7 @@ const handleGetConnection = async () => {
     });
 
     return connection;
-
 }
-
-
-
 
 const hashPassword = (userPassword) => {
     // hash password
@@ -27,14 +23,11 @@ const hashPassword = (userPassword) => {
 }
 
 const createNewUser = async (user) => {
-    const connection = await handleGetConnection();
-
-
-    let hashPass = hashPassword(user.password);
     try {
-        connection.query('INSERT INTO users (email, password, username) VALUES (?, ?, ?)', [user.email, hashPass, user.username], function (err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            //console.log(fields); // fields contains extra meta data about results, if available
+        const connection = await handleGetConnection();
+        let hashPass = hashPassword(user.password);
+        const [rows, fields] = await connection.execute('INSERT INTO users (email, password, username) VALUES (?, ?, ?)', [user.email, hashPass, user.username], function (err, results, fields) {
+            console.log(results);
         });
 
     } catch (err) {
@@ -42,12 +35,11 @@ const createNewUser = async (user) => {
     }
 }
 
-const getListUsers = async () => {
-    let users = [];
-
+const getUserInfoById = async (id) => {
     try {
+        console.log('>>> check id:', id);
         const connection = await handleGetConnection();
-        const [rows, fields] = await connection.execute('SELECT * FROM users');
+        const [rows, fields] = await connection.execute('SELECT * FROM users WHERE Id = ?', [id]);
         console.log('check rows: ', rows)
         return rows;
     } catch (err) {
@@ -56,5 +48,43 @@ const getListUsers = async () => {
     }
 }
 
+const updateUser = async (user) => {
+    try {
+        const connection = await handleGetConnection();
+        const [rows, fields] = await connection.execute('UPDATE users SET username = ? , email = ? WHERE Id = ?',
+            [user.username, user.email, user.id]);
+        console.log('check rows update: ', rows)
+        return rows;
+    } catch (err) {
+        console.log('Error exception: ', err);
+        return [];
+    }
+}
 
-module.exports = { createNewUser, getListUsers }
+const deleteUser = async (id) => {
+    try {
+        const connection = await handleGetConnection();
+        const [rows, fields] = await connection.execute('DELETE FROM users WHERE Id = ?', [id], function (err, results, fields) {
+            console.log(results);
+        });
+        console.log('> userService.deleteUser - delete user success Id:', id);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
+const getListUsers = async () => {
+    try {
+        const connection = await handleGetConnection();
+        const [rows, fields] = await connection.execute('SELECT * FROM users');
+        return rows;
+    } catch (err) {
+        console.log('Error exception: ', err);
+        return [];
+    }
+}
+
+
+module.exports = { createNewUser, getUserInfoById, getListUsers, deleteUser, updateUser }
