@@ -26,19 +26,8 @@ const handleUserInfo = async (req, res) => {
 const handleUpdateUser = async (req, res) => {
     let message = '';
     var userinfo = { id: req.params.id, email: req.body.email, username: req.body.username, password: req.body.password };
-
-    //console.log('>> check user update: ', userinfo);
     userService.updateUser(userinfo);
-    //res.render('user-edit.ejs', { userinfo, message: 'Save success.' })
-    //res.render('user-edit.ejs', { userinfo, message: 'Save success.' })
-    // setTimeout(() => {
-
-    //     console.log(">>>> return user");
-    //     res.redirect('/user');
-    // }, 3000)
-
     return res.redirect('/user');
-
 }
 
 const handleCreatNewUser = async (req, res) => {
@@ -55,7 +44,6 @@ const handleDeleteUser = async (req, res) => {
     userService.deleteUser(req.params.id);
     return res.redirect('/user')
 }
-
 
 module.exports = {
     handleGetdata, handleUserPage, handleUserInfo, handleCreatNewUser, handleDeleteUser, handleUpdateUser
