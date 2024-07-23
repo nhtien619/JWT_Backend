@@ -2,20 +2,33 @@ import express from 'express';
 import configViewEngine from './config/viewEngine';
 import initWebRouters from './routes/web';
 import bodyParser from 'body-parser';
+//import connection from './config/connectDB';
 
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8083;
 
-// config view engine
+/**
+ *? Config view engine 
+ **/
 configViewEngine(app);
 
-// config body-parser
+/**
+ *? config body-parser
+ **/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//init web routers
+/** 
+ *? init web routers
+*/
 initWebRouters(app);
+
+/**
+ * ? test connection db
+ */
+
+//connection();
 
 
 app.listen(PORT, () => {
