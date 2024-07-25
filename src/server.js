@@ -4,6 +4,7 @@ import initWebRouters from './routes/web';
 import bodyParser from 'body-parser';
 //import connection from './config/connectDB';
 
+//? define to process.env
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8083;

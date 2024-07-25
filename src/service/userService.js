@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 import bluebird from 'bluebird';
+import db from '../models/models';
 
 const salt = bcrypt.genSaltSync(10);
 
