@@ -7,15 +7,19 @@ module.exports = {
      *
     */
 
-    await queryInterface.bulkInsert('Users', [{
+    await queryInterface.bulkInsert('User', [{
       email: 'JohnDoe112@gmai.com',
       password: '334422',
-      username: 'joedoe'
+      username: 'joedoe',
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
       email: 'JohnDoe113@gmai.com',
       password: '334422',
-      username: 'joedoe2'
+      username: 'joedoe2',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
 

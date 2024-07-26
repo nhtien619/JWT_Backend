@@ -8,7 +8,8 @@ const handleGetdata = (req, res) => {
 const handleUserPage = async (req, res) => {
     // first load page
     let userList = await userService.getListUsers();
-    console.log('> homeController.handleUserPage - check count userlist:', userList.length);
+    console.log('> homeController.handleUserPage - check count userlist:', userList);
+    console.log('---------------------------------------------------');
     return res.render('user.ejs', { userList });
 }
 
@@ -25,15 +26,16 @@ const handleUserInfo = async (req, res) => {
 
 const handleUpdateUser = async (req, res) => {
     let message = '';
+    console.log('>>>> handleUpdateUser: ', req.params);
     var userinfo = { id: req.params.id, email: req.body.email, username: req.body.username, password: req.body.password };
-    userService.updateUser(userinfo);
+    await userService.updateUser(userinfo);
     return res.redirect('/user');
 }
 
 const handleCreatNewUser = async (req, res) => {
     var user = { email: req.body.email, username: req.body.username, password: req.body.password };
     // create new user
-    userService.createNewUser(user);
+    await userService.createNewUser(user);
     //return res.send('create done !');
     console.log('> homeController.handleCreatNewUser - create new success: ', user.username);
     return res.redirect('/user')
@@ -41,7 +43,7 @@ const handleCreatNewUser = async (req, res) => {
 
 const handleDeleteUser = async (req, res) => {
     console.log('> homeController.handleDeleteUser req params: ', req.params);
-    userService.deleteUser(req.params.id);
+    await userService.deleteUser(req.params.id);
     return res.redirect('/user')
 }
 
