@@ -8,17 +8,15 @@ const handleGetdata = (req, res) => {
 const handleUserPage = async (req, res) => {
     // first load page
     let userList = await userService.getListUsers();
-    console.log('> homeController.handleUserPage - check count userlist:', userList);
+    //console.log('> homeController.handleUserPage - check count userlist:', userList);
+    console.log('> homeController.handleUserPage - check users:', JSON.stringify(userList, null, 2));
     console.log('---------------------------------------------------');
     return res.render('user.ejs', { userList });
 }
 
 const handleUserInfo = async (req, res) => {
     let message = '';
-    let userData = await userService.getUserInfoById(req.params.id);
-    let userinfo = {};
-    if (userData && userData.length > 0)
-        userinfo = userData[0];
+    let userinfo = await userService.getUserInfoById(req.params.id);
 
     console.log('>> check user info: ', userinfo);
     return res.render('user-edit.ejs', { userinfo })
@@ -28,8 +26,13 @@ const handleUpdateUser = async (req, res) => {
     let message = '';
     console.log('>>>> handleUpdateUser: ', req.params);
     var userinfo = { id: req.params.id, email: req.body.email, username: req.body.username, password: req.body.password };
-    await userService.updateUser(userinfo);
-    return res.redirect('/user');
+    const rsUpdate = await userService.updateUser(userinfo);
+    if (rsUpdate.id > 0) {
+        return res.redirect('/user');
+    }
+    message = 'Save error';
+    return res.render('user-edit.ejs', { userinfo })
+
 }
 
 const handleCreatNewUser = async (req, res) => {

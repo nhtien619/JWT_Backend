@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 import bluebird from 'bluebird';
 import db from '../models';
+import user from '../models/user';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -27,9 +28,8 @@ const hashPassword = (userPassword) => {
 //? Create new user -> save database
 const createNewUser = async (user) => {
     try {
-        const connection = await handleGetConnection();
+        //const connection = await handleGetConnection();
         let hashPass = hashPassword(user.password);
-
         // const [rows, fields] = await connection.execute('INSERT INTO users (email, password, username) VALUES (?, ?, ?)', [user.email, hashPass, user.username], function (err, results, fields) {
         //     console.log(results);
         // });
@@ -51,14 +51,22 @@ const updateUser = async (user) => {
         // const connection = await handleGetConnection();
         // const [rows, fields] = await connection.execute('UPDATE users SET username = ? , email = ? WHERE Id = ?',
         //     [user.username, user.email, user.id]);
-        // console.log('check rows update: ', rows)
 
-        db.User.set({
-            username: user.username,
-            email: user.email
-        });
+        // db.User.set({
+        //     username: user.username,
+        //     email: user.email
+        // });
 
-        await db.User.save();
+        await db.User.update(
+            { username: user.username, email: user.email },
+            {
+                where: {
+                    id: user.id
+                }
+            })
+
+
+        //await db.User.save();
 
         console.log('check rows update: ', user)
         return user;
@@ -71,10 +79,14 @@ const updateUser = async (user) => {
 const getUserInfoById = async (id) => {
     try {
         console.log('>>> check id:', id);
-        const connection = await handleGetConnection();
-        const [rows, fields] = await connection.execute('SELECT * FROM user WHERE id = ?', [id]);
-        console.log('check rows: ', rows)
-        return rows;
+        let user = {};
+        // const connection = await handleGetConnection();
+        // const [rows, fields] = await connection.execute('SELECT * FROM user WHERE id = ?', [id]);
+        user = await db.User.findOne({
+            where: { id: id }
+        })
+        console.log('check rows: ', user)
+        return user.get({ plain: true });
     } catch (err) {
         console.log('Error exception: ', err);
         return [];
@@ -85,10 +97,17 @@ const getUserInfoById = async (id) => {
 
 const deleteUser = async (id) => {
     try {
-        const connection = await handleGetConnection();
-        const [rows, fields] = await connection.execute('DELETE FROM user WHERE Id = ?', [id], function (err, results, fields) {
-            console.log(results);
-        });
+        // const connection = await handleGetConnection();
+        // const [rows, fields] = await connection.execute('DELETE FROM user WHERE Id = ?', [id], function (err, results, fields) {
+        //     console.log(results);
+        // });
+
+        await db.User.destroy({
+            where: {
+                id: id
+            }
+        })
+
         console.log('> userService.deleteUser - delete user success Id:', id);
     } catch (err) {
         console.log(err);
@@ -99,9 +118,12 @@ const deleteUser = async (id) => {
 
 const getListUsers = async () => {
     try {
-        const connection = await handleGetConnection();
-        const [rows, fields] = await connection.execute('SELECT * FROM user');
-        return rows;
+        //const connection = await handleGetConnection();
+        //const [rows, fields] = await connection.execute('SELECT * FROM user');
+        const user = db.User.findAll();
+
+
+        return user;
     } catch (err) {
         console.log('Error exception: ', err);
         return [];
