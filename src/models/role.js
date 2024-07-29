@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 const { default: Sequelize } = require('sequelize/lib/sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Role extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,24 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-
-  //? Object relational mapping
-  User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    username: DataTypes.STRING,
-    address: DataTypes.STRING,
-    sex: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    groupId: DataTypes.INTEGER
+  Role.init({
+    url: DataTypes.STRING,
+    description: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Role',
   });
-  return User;
+  return Role;
 };
-
-/**
- * TODO: auto create a table to db
- * ?command: npx sequelize-cli db:migrate
- */

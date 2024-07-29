@@ -1,32 +1,23 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('User', {
+    await queryInterface.createTable('Project', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      name: {
         type: Sequelize.STRING
       },
-      password: {
+      description: {
         type: Sequelize.STRING
       },
-      username: {
-        type: Sequelize.STRING
+      startdate: {
+        type: Sequelize.DATE
       },
-      address: {
-        type: Sequelize.STRING
-      },
-      sex: {
-        type: Sequelize.STRING
-      },
-      phone: {
-        type: Sequelize.STRING
-      },
-      groupId: {
+      customerId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -40,13 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('User');
+    await queryInterface.dropTable('Project');
   }
 };
-
-
-/** 
- * TODO: generate creating the first Model
- * ?command: npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
-
- */

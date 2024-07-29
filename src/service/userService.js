@@ -93,15 +93,12 @@ const getUserInfoById = async (id) => {
     }
 }
 
-
-
 const deleteUser = async (id) => {
     try {
         // const connection = await handleGetConnection();
         // const [rows, fields] = await connection.execute('DELETE FROM user WHERE Id = ?', [id], function (err, results, fields) {
         //     console.log(results);
         // });
-
         await db.User.destroy({
             where: {
                 id: id
@@ -113,8 +110,6 @@ const deleteUser = async (id) => {
         console.log(err);
     }
 }
-
-
 
 const getListUsers = async () => {
     try {
