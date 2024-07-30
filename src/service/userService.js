@@ -115,9 +115,31 @@ const getListUsers = async () => {
     try {
         //const connection = await handleGetConnection();
         //const [rows, fields] = await connection.execute('SELECT * FROM user');
-        const user = db.User.findAll();
+        const user = await db.User.findAll({
+            include: {
+                model: db.Group,
+                attributes: ['id', 'name', 'description']
+            },
+            attributes: ['id', 'email', 'username'],
+            raw: true,
+            nest: true
+        });
 
+        let roles = await db.Role.findAll({
+            include: { model: db.Group, where: { id: 1 } },
+            raw: true,
+            nest: true
+        });
 
+        // let newUser = await db.User.findOne({
+        //     where: { id: 1 },
+        //     include: { model: db.Group },
+        //     raw: true,
+        //     nest: true
+        // })
+
+        console.log(">> userService check user:", user);
+        console.log(">> userService check roles:", roles);
         return user;
     } catch (err) {
         console.log('Error exception: ', err);

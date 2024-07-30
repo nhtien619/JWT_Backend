@@ -28,3 +28,9 @@ module.exports = {
     await queryInterface.dropTable('Role');
   }
 };
+
+/** 
+ * TODO: generate creating the first Model
+ * ?command: npx sequelize-cli model:generate --name Role --attributes url:string,description:string
+
+ */

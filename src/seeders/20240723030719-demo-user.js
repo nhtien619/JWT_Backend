@@ -8,16 +8,13 @@ module.exports = {
     */
 
     await queryInterface.bulkInsert('User', [{
-      email: 'JohnDoe112@gmai.com',
-      password: '334422',
-      username: 'joedoe',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      email: 'JohnDoe113@gmai.com',
-      password: '334422',
-      username: 'joedoe2',
+      email: 'nguyenhoangtien619@gmai.com',
+      password: '12345678',
+      username: 'nhtien',
+      groupId: 1,
+      sex: 'Men',
+      phone: '0903740561',
+      address: 'NTS Street, ward 4, district GV',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

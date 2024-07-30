@@ -9,7 +9,7 @@ const handleUserPage = async (req, res) => {
     // first load page
     let userList = await userService.getListUsers();
     //console.log('> homeController.handleUserPage - check count userlist:', userList);
-    console.log('> homeController.handleUserPage - check users:', JSON.stringify(userList, null, 2));
+    console.log('> homeController.handleUserPage - check users:', JSON.stringify(userList, null, 1));
     console.log('---------------------------------------------------');
     return res.render('user.ejs', { userList });
 }
