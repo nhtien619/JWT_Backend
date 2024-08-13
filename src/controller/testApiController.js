@@ -6,4 +6,14 @@ const testApiData = (req, res) => {
     })
 }
 
-module.exports = { testApiData }
+const handleRegister = (req, res) => {
+    console.log('>>>> handleRegister: ', req.body);
+
+    return res.status(200).json({
+        message: 'OK',
+        data: req.body
+    })
+}
+
+
+module.exports = { testApiData, handleRegister }
