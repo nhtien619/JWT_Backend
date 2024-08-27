@@ -1,6 +1,6 @@
 import express from 'express'
 import homeController from '../controller/homeController';
-import testApiController from '../controller/testApiController';
+import userController from '../controller/userController';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ const initWebRouters = (app) => {
     //     return res.send('I am Tom');
     // })
 
-    router.get('/api/test-api', testApiController.testApiData);
+    router.get('/api/test-api', userController.testApiData);
 
     return app.use('/', router);
 };
